@@ -1,0 +1,48 @@
+# Keep the build context lean — anything listed here is invisible to Docker.
+# Mirrors .gitignore where it makes sense, plus a few build-only excludes.
+
+# dependencies
+node_modules
+.pnp
+.pnp.*
+.yarn
+
+# build output
+.next
+out
+build
+dist
+coverage
+*.tsbuildinfo
+
+# version control / editor / OS noise
+.git
+.gitignore
+.github
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files — NEVER bake secrets into an image
+.env
+.env.*
+!.env.example
+
+# docker / orchestration files don't belong inside the image
+Dockerfile
+.dockerignore
+docker-compose*.yml
+compose*.yml
+
+# docs / agent scaffolding
+README.md
+AGENTS.md
+CLAUDE.md
+*.md
