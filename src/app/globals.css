@@ -1,8 +1,19 @@
 @import "tailwindcss";
+@config "../../tailwind.config.ts";
+
+/*
+ * Vessel — Warm Clinical
+ *
+ * Zinc-950 canvas, zinc-300 text. The lab is dark; the readout is calm.
+ * Geist Sans is the entrepreneur's voice (warm, readable). Geist Mono
+ * is the developer's voice (precise, technical). Both are surfaced as
+ * Tailwind utilities (`font-sans`, `font-mono`) via @theme below so the
+ * choice between voices is always one class away.
+ */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #09090b; /* zinc-950 */
+  --foreground: #d4d4d8; /* zinc-300 */
 }
 
 @theme inline {
@@ -12,15 +23,10 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
