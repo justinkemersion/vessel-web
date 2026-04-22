@@ -13,6 +13,13 @@ import type { Config } from "tailwindcss";
  */
 const config: Config = {
   theme: {
+    // Sharp corners, always. Overriding (not extending) borderRadius wipes
+    // Tailwind's default radius scale so `rounded`, `rounded-md`, `rounded-lg`,
+    // etc. all resolve to 0. The clinical aesthetic depends on this.
+    borderRadius: {
+      none: "0",
+      DEFAULT: "0",
+    },
     extend: {
       colors: {
         primary: {
