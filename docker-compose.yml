@@ -1,15 +1,3 @@
-# Vessel — production compose stack.
-#
-# Build:
-#   docker compose build
-# Run:
-#   docker compose up -d
-#
-# Reads NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY and CLERK_SECRET_KEY from a local
-# `.env` file (see .env.example). The publishable key is forwarded into the
-# build stage so it gets inlined into the client bundle; the secret key is
-# read at container runtime only.
-
 services:
   web:
     image: vessel-web:latest
@@ -20,8 +8,9 @@ services:
       args:
         NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:-}
     restart: unless-stopped
-    ports:
-      - "${PORT:-3000}:3000"
+    # PORTS REMOVED: Traefik handles all traffic via the internal flux-network bridge.
+    networks:
+      - flux-network
     environment:
       NODE_ENV: production
       PORT: 3000
@@ -38,3 +27,13 @@ services:
       timeout: 5s
       retries: 3
       start_period: 20s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.vessel-web.rule=Host(`vsl-base.com`) || Host(`www.vsl-base.com`)"
+      - "traefik.http.routers.vessel-web.entrypoints=websecure"
+      - "traefik.http.routers.vessel-web.tls.certresolver=myresolver"
+      - "traefik.http.services.vessel-web.loadbalancer.server.port=3000"
+
+networks:
+  flux-network:
+    external: true
