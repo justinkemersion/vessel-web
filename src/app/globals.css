@@ -2,18 +2,14 @@
 @config "../../tailwind.config.ts";
 
 /*
- * Vessel — Warm Clinical
+ * Vessel — elite technical (Flux / Linear family)
  *
- * Zinc-950 canvas, zinc-300 text. The lab is dark; the readout is calm.
- * Geist Sans is the entrepreneur's voice (warm, readable). Geist Mono
- * is the developer's voice (precise, technical). Both are surfaced as
- * Tailwind utilities (`font-sans`, `font-mono`) via @theme below so the
- * choice between voices is always one class away.
+ * Zinc-950 canvas, zinc-500 muted, Geist Sans + Mono via @theme.
  */
 
 :root {
-  --background: #09090b; /* zinc-950 */
-  --foreground: #a1a1aa; /* zinc-400 */
+  --background: #09090b;
+  --foreground: #a1a1aa;
 }
 
 @theme inline {
@@ -21,6 +17,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --radius-md: 0.375rem;
 }
 
 body {
@@ -31,11 +28,6 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/*
- * The fleet's hairline. One source of truth for every card, nav, and
- * panel edge — so when we tune the warmth of the clinical palette, the
- * whole system shifts in lockstep. Usage: `class="vessel-border"`.
- */
 @utility vessel-border {
   @apply border border-zinc-800;
 }

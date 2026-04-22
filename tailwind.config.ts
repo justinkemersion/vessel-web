@@ -1,25 +1,12 @@
 import type { Config } from "tailwindcss";
 
 /**
- * Vessel — Warm Clinical design tokens.
+ * Vessel — elite technical palette (zinc canvas, restrained accent).
  *
- * The palette intentionally pairs a deep zinc canvas (the lab) with an
- * amber primary (the warmth). Amber is the through-line across the
- * Vessel fraternity — it is the "fluorescent under the hood" cue that
- * something is alive, working, fermenting, broadcasting, listening.
- *
- * Tailwind v4 reads this file because globals.css references it via
- * `@config "../../tailwind.config.ts";`.
+ * Professional radius (rounded-md) aligns with the Flux / Linear family.
  */
 const config: Config = {
   theme: {
-    // Sharp corners, always. Overriding (not extending) borderRadius wipes
-    // Tailwind's default radius scale so `rounded`, `rounded-md`, `rounded-lg`,
-    // etc. all resolve to 0. The clinical aesthetic depends on this.
-    borderRadius: {
-      none: "0",
-      DEFAULT: "0",
-    },
     extend: {
       colors: {
         primary: {

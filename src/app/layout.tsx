@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Vessel — Boutique Infrastructure for the Visionary",
+  title: "Vessel — Boutique infrastructure for the craft",
   description:
     "A private collective of high-utility web projects. Dedicated resources, zero jargon.",
 };
@@ -30,7 +30,9 @@ export default function RootLayout({
         lang="en"
         className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       >
-        <body className="min-h-full flex flex-col">{children}</body>
+        <body className="flex min-h-full flex-col bg-zinc-950 font-sans text-zinc-400 antialiased">
+          {children}
+        </body>
       </html>
     </ClerkProvider>
   );
