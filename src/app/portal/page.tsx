@@ -8,7 +8,7 @@ import { VesselCard } from "@/components/ui/vessel-card";
  * Vessel — the Portal (matches landing shell: zinc-950, zinc-800 hairlines, rounded-md).
  */
 
-type ManifestStatus = "ACTIVE" | "STANDBY";
+type ManifestStatus = "ACTIVE" | "IN_DEVELOPMENT";
 
 const manifest: Array<{
   gate: string;
@@ -16,12 +16,12 @@ const manifest: Array<{
   destination: string;
   status: ManifestStatus;
 }> = [
-  { gate: "01", service: "YeastCoast", destination: "yeastcoast.vsl-base.com", status: "ACTIVE" },
-  { gate: "02", service: "PseudoChannel", destination: "ch.vsl-base.com", status: "ACTIVE" },
-  { gate: "03", service: "MailPilot AI", destination: "mail.vsl-base.com", status: "ACTIVE" },
-  { gate: "04", service: "finances-ai", destination: "ledger.vsl-base.com", status: "ACTIVE" },
-  { gate: "05", service: "Tone", destination: "tone.vsl-base.com", status: "ACTIVE" },
-  { gate: "06", service: "Bachelor Cookbook", destination: "kitchen.vsl-base.com", status: "STANDBY" },
+  { gate: "01", service: "Flux", destination: "flux.vsl-base.com", status: "ACTIVE" },
+  { gate: "02", service: "YeastCoast", destination: "yeastcoast.vsl-base.com", status: "ACTIVE" },
+  { gate: "03", service: "PseudoChannel", destination: "ch.vsl-base.com", status: "IN_DEVELOPMENT" },
+  { gate: "04", service: "MailPilot AI", destination: "mail.vsl-base.com", status: "IN_DEVELOPMENT" },
+  { gate: "05", service: "finances-ai", destination: "ledger.vsl-base.com", status: "IN_DEVELOPMENT" },
+  { gate: "06", service: "Tone", destination: "tone.vsl-base.com", status: "IN_DEVELOPMENT" },
 ];
 
 export default function PortalPage() {
@@ -83,7 +83,7 @@ function PortalHeader() {
 function FluxQuickLink() {
   return (
     <a
-      href="https://app.vsl-base.com"
+      href="https://flux.vsl-base.com"
       target="_blank"
       rel="noreferrer"
       className="group block"
@@ -92,7 +92,7 @@ function FluxQuickLink() {
         <div className="flex flex-col gap-2">
           <VesselCard.Eyebrow>Flux · Orchestration</VesselCard.Eyebrow>
           <h2 className="font-sans text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-            app.vsl-base.com
+            flux.vsl-base.com
           </h2>
           <p className="font-mono text-sm text-zinc-500">
             Orchestrate your fleet.
@@ -155,22 +155,42 @@ function ManifestRow({
   status: ManifestStatus;
 }) {
   const isActive = status === "ACTIVE";
+  const isInDevelopment = status === "IN_DEVELOPMENT";
   return (
-    <li className="group grid grid-cols-1 gap-1 border-b border-zinc-800 px-5 py-4 transition-colors last:border-b-0 hover:bg-zinc-900/50 sm:grid-cols-[3rem_1fr_1.4fr_6rem] sm:items-center sm:gap-4">
+    <li
+      className={`group grid grid-cols-1 gap-1 border-b border-zinc-800 px-5 py-4 transition-colors last:border-b-0 sm:grid-cols-[3rem_1fr_1.4fr_6rem] sm:items-center sm:gap-4 ${
+        isInDevelopment
+          ? "bg-zinc-950 text-zinc-600"
+          : "hover:bg-zinc-900/50"
+      }`}
+    >
       <span className="font-mono text-xs text-zinc-500">{gate}</span>
-      <span className="font-sans text-sm font-medium text-zinc-100">{service}</span>
-      <span className="font-mono text-xs text-zinc-500">{destination}</span>
+      <span className={isInDevelopment ? "font-sans text-sm font-medium text-zinc-500" : "font-sans text-sm font-medium text-zinc-100"}>
+        {service}
+      </span>
+      {isActive ? (
+        <a
+          href={`https://${destination}`}
+          target="_blank"
+          rel="noreferrer"
+          className="font-mono text-xs text-zinc-400 underline decoration-zinc-700 underline-offset-2 transition-colors hover:text-zinc-200"
+        >
+          {destination}
+        </a>
+      ) : (
+        <span className="font-mono text-xs text-zinc-600">{destination}</span>
+      )}
       <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] sm:justify-end">
         <span
           aria-hidden
           className={
             isActive
               ? "inline-block size-1.5 rounded-full bg-emerald-500"
-              : "inline-block size-1.5 rounded-full border border-zinc-600"
+              : "inline-block size-1.5 rounded-full border border-zinc-700"
           }
         />
-        <span className={isActive ? "text-emerald-400/90" : "text-zinc-500"}>
-          {status}
+        <span className={isActive ? "text-emerald-400/90" : "text-zinc-600"}>
+          {isActive ? "ACTIVE" : "IN DEVELOPMENT"}
         </span>
       </span>
     </li>

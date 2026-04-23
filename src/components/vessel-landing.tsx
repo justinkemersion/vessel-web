@@ -162,7 +162,7 @@ export function VesselLanding() {
         </Link>
         <Link
           href="#pillars"
-          className={`inline-flex w-full items-center justify-center rounded-md border border-zinc-700 bg-transparent px-6 py-3.5 text-base font-medium text-zinc-200 transition-colors hover:border-zinc-500 hover:bg-zinc-900/50 sm:w-auto ${focusSecondary}`}
+          className={`inline-flex w-full items-center justify-center rounded-md border border-zinc-800/70 bg-zinc-950/40 px-6 py-3.5 text-base font-medium text-zinc-600 opacity-80 transition-colors hover:border-zinc-800 hover:bg-zinc-950/40 hover:text-zinc-600 sm:w-auto ${focusSecondary}`}
           scroll
         >
           Read the Docs
