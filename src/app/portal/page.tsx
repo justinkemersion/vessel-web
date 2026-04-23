@@ -18,7 +18,7 @@ const manifest: Array<{
 }> = [
   { gate: "01", service: "Flux", destination: "flux.vsl-base.com", status: "ACTIVE" },
   { gate: "02", service: "YeastCoast", destination: "yeastcoast.vsl-base.com", status: "ACTIVE" },
-  { gate: "03", service: "PseudoChannel", destination: "ch.vsl-base.com", status: "IN_DEVELOPMENT" },
+  { gate: "03", service: "PseudoChannel", destination: "static.vsl-base.com", status: "IN_DEVELOPMENT" },
   { gate: "04", service: "MailPilot AI", destination: "mail.vsl-base.com", status: "IN_DEVELOPMENT" },
   { gate: "05", service: "finances-ai", destination: "ledger.vsl-base.com", status: "IN_DEVELOPMENT" },
   { gate: "06", service: "Tone", destination: "tone.vsl-base.com", status: "IN_DEVELOPMENT" },
