@@ -136,3 +136,12 @@ export const projectDescriptionsByRepo: Record<ProjectKey, string> =
     },
     {} as Record<ProjectKey, string>,
   );
+
+export const readmePathByRepo: Record<ProjectKey, string> =
+  portalProjects.reduce(
+    (acc, project) => {
+      acc[project.repo] = project.readmePath;
+      return acc;
+    },
+    {} as Record<ProjectKey, string>,
+  );
