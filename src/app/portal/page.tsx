@@ -1,29 +1,20 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { VesselCard } from "@/components/ui/vessel-card";
+import {
+  manifestRows,
+  portalProjects,
+  projectDescriptionsByRepo,
+  type ManifestStatus,
+  type ProjectKey,
+} from "@/lib/portal-content";
 
 /**
  * Vessel — the Portal (matches landing shell: zinc-950, zinc-800 hairlines, rounded-md).
  */
-
-type ManifestStatus = "ACTIVE" | "IN_DEVELOPMENT";
-
-const manifest: Array<{
-  gate: string;
-  service: string;
-  destination: string;
-  status: ManifestStatus;
-}> = [
-  { gate: "01", service: "Flux", destination: "flux.vsl-base.com", status: "ACTIVE" },
-  { gate: "02", service: "YeastCoast", destination: "yeastcoast.vsl-base.com", status: "ACTIVE" },
-  { gate: "03", service: "PseudoChannel", destination: "static.vsl-base.com", status: "IN_DEVELOPMENT" },
-  { gate: "04", service: "MailPilot AI", destination: "mail.vsl-base.com", status: "IN_DEVELOPMENT" },
-  { gate: "05", service: "finances-ai", destination: "ledger.vsl-base.com", status: "IN_DEVELOPMENT" },
-  { gate: "06", service: "Tone", destination: "tone.vsl-base.com", status: "IN_DEVELOPMENT" },
-  { gate: "07", service: "Bloom Atelier", destination: "bloom.vsl-base.com", status: "IN_DEVELOPMENT" },
-];
 
 export default function PortalPage() {
   return (
@@ -32,6 +23,7 @@ export default function PortalPage() {
 
       <main className="mx-auto w-full max-w-6xl flex-1 px-6 py-12 sm:px-10 sm:py-16">
         <FluxQuickLink />
+        <Projects />
 
         <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-3">
           <Manifest />
@@ -114,7 +106,67 @@ function FluxQuickLink() {
   );
 }
 
+function Projects() {
+  const [openProject, setOpenProject] = useState<string | null>(null);
+
+  return (
+    <section className="mt-10">
+      <div className="mb-3 flex items-baseline justify-between">
+        <h2 className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
+          Projects
+        </h2>
+        <span className="font-mono text-[11px] text-zinc-600">
+          README sourced
+        </span>
+      </div>
+
+      <ul className="grid grid-cols-1 gap-3 md:grid-cols-2">
+        {portalProjects.map((project) => {
+          const isOpen = openProject === project.repo;
+
+          return (
+            <li key={project.repo} className="rounded-md border border-zinc-800 bg-zinc-950">
+              <button
+                type="button"
+                aria-expanded={isOpen}
+                onClick={() =>
+                  setOpenProject((current) =>
+                    current === project.repo ? null : project.repo,
+                  )
+                }
+                className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition-colors hover:bg-zinc-900/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 rounded-md"
+              >
+                <div className="flex flex-col">
+                  <span className="font-sans text-sm font-medium text-zinc-100">
+                    {project.name}
+                  </span>
+                  <span className="font-mono text-[10px] text-zinc-600">
+                    {project.readmePath}
+                  </span>
+                </div>
+                <span className="font-mono text-xs text-zinc-400">
+                  {isOpen ? "−" : "+"}
+                </span>
+              </button>
+
+              {isOpen ? (
+                <div className="border-t border-zinc-800 px-4 py-3">
+                  <p className="text-sm leading-relaxed text-zinc-400">
+                    {projectDescriptionsByRepo[project.repo]}
+                  </p>
+                </div>
+              ) : null}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+
 function Manifest() {
+  const [openGate, setOpenGate] = useState<string | null>(null);
+
   return (
     <section className="lg:col-span-2">
       <div className="mb-3 flex items-baseline justify-between">
@@ -135,8 +187,17 @@ function Manifest() {
         </div>
 
         <ul>
-          {manifest.map((row) => (
-            <ManifestRow key={row.gate} {...row} />
+          {manifestRows.map((row) => (
+            <ManifestRow
+              key={row.gate}
+              {...row}
+              isOpen={openGate === row.gate}
+              onToggle={() =>
+                setOpenGate((current) =>
+                  current === row.gate ? null : row.gate,
+                )
+              }
+            />
           ))}
         </ul>
       </div>
@@ -149,11 +210,17 @@ function ManifestRow({
   service,
   destination,
   status,
+  repo,
+  isOpen,
+  onToggle,
 }: {
   gate: string;
   service: string;
   destination: string;
   status: ManifestStatus;
+  repo: ProjectKey;
+  isOpen: boolean;
+  onToggle: () => void;
 }) {
   const isActive = status === "ACTIVE";
   const isInDevelopment = status === "IN_DEVELOPMENT";
@@ -166,21 +233,41 @@ function ManifestRow({
       }`}
     >
       <span className="font-mono text-xs text-zinc-500">{gate}</span>
-      <span className={isInDevelopment ? "font-sans text-sm font-medium text-zinc-500" : "font-sans text-sm font-medium text-zinc-100"}>
-        {service}
+      <button
+        type="button"
+        aria-expanded={isOpen}
+        onClick={onToggle}
+        className={`flex items-center gap-2 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 rounded-sm ${
+          isInDevelopment
+            ? "font-sans text-sm font-medium text-zinc-500 hover:text-zinc-400"
+            : "font-sans text-sm font-medium text-zinc-100 hover:text-white"
+        }`}
+      >
+        <span>{service}</span>
+        <span className="font-mono text-[10px] text-zinc-500">
+          {isOpen ? "−" : "+"}
+        </span>
+      </button>
+      <span
+        className={
+          isInDevelopment
+            ? "font-mono text-xs text-zinc-600"
+            : "font-mono text-xs text-zinc-400"
+        }
+      >
+        {isActive ? (
+          <a
+            href={`https://${destination}`}
+            target="_blank"
+            rel="noreferrer"
+            className="font-mono text-xs text-zinc-400 underline decoration-zinc-700 underline-offset-2 transition-colors hover:text-zinc-200"
+          >
+            {destination}
+          </a>
+        ) : (
+          destination
+        )}
       </span>
-      {isActive ? (
-        <a
-          href={`https://${destination}`}
-          target="_blank"
-          rel="noreferrer"
-          className="font-mono text-xs text-zinc-400 underline decoration-zinc-700 underline-offset-2 transition-colors hover:text-zinc-200"
-        >
-          {destination}
-        </a>
-      ) : (
-        <span className="font-mono text-xs text-zinc-600">{destination}</span>
-      )}
       <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] sm:justify-end">
         <span
           aria-hidden
@@ -194,6 +281,12 @@ function ManifestRow({
           {isActive ? "ACTIVE" : "IN DEVELOPMENT"}
         </span>
       </span>
+
+      {isOpen ? (
+        <p className="col-span-full pt-2 font-sans text-sm leading-relaxed text-zinc-400">
+          {projectDescriptionsByRepo[repo]}
+        </p>
+      ) : null}
     </li>
   );
 }
