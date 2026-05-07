@@ -174,7 +174,7 @@ function Manifest() {
           Flight manifest
         </h2>
         <span className="font-mono text-[11px] text-zinc-600">
-          {manifest.length} services
+          {manifestRows.length} services
         </span>
       </div>
 
