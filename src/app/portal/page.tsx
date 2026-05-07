@@ -22,6 +22,7 @@ const manifest: Array<{
   { gate: "04", service: "MailPilot AI", destination: "mail.vsl-base.com", status: "IN_DEVELOPMENT" },
   { gate: "05", service: "finances-ai", destination: "ledger.vsl-base.com", status: "IN_DEVELOPMENT" },
   { gate: "06", service: "Tone", destination: "tone.vsl-base.com", status: "IN_DEVELOPMENT" },
+  { gate: "07", service: "Bloom Atelier", destination: "bloom.vsl-base.com", status: "IN_DEVELOPMENT" },
 ];
 
 export default function PortalPage() {
