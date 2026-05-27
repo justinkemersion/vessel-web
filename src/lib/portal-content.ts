@@ -5,7 +5,7 @@ export type ProjectKey =
   | "yeast-coast"
   | "pseudo-channel"
   | "mailpilot-ai"
-  | "finances-ai"
+  | "vessel-ledger"
   | "tone"
   | "bloom-atelier";
 
@@ -54,11 +54,11 @@ export const portalProjects: PortalProject[] = [
       "MailPilot AI is an inbox copilot that pairs a Next.js control plane with a Python worker to classify and process Gmail using AI, coordinated through Supabase.",
   },
   {
-    name: "finances-ai",
-    repo: "finances-ai",
-    readmePath: "~/Projects/finances-ai/README.md",
+    name: "Vessel Ledger",
+    repo: "vessel-ledger",
+    readmePath: "~/Projects/vessel-ledger/README.md",
     description:
-      "Finance AI Analyzer is a privacy-first personal finance analyzer with deterministic analytics and optional AI explanations, built to keep users in full control of their data.",
+      "Vessel Ledger quietly keeps the household vessel afloat by tracking recurring obligations, upcoming bills, paid/unpaid status, payment notes, and calm reminders.",
   },
   {
     name: "Tone",
@@ -107,10 +107,10 @@ export const manifestRows: ManifestRow[] = [
   },
   {
     gate: "05",
-    service: "finances-ai",
+    service: "Vessel Ledger",
     destination: "ledger.vsl-base.com",
     status: "IN_DEVELOPMENT",
-    repo: "finances-ai",
+    repo: "vessel-ledger",
   },
   {
     gate: "06",
