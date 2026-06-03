@@ -6,8 +6,8 @@ Display copy rules: [`copy-style.md`](copy-style.md) (no em dashes in UI text).
 
 ## Public Register vs portal Manifest
 
-- **`registerWorks`** on `/`: curated editorial index (6 works). No gate numbers.
-- **`manifestRows`** on `/portal`: full operational table for operators (7 works).
+- **`registerWorks`** on `/`: curated editorial index (7 works). No gate numbers.
+- **`manifestRows`** on `/portal`: full operational table for operators (8 works).
 
 PseudoChannel and Tone are **Private** in the portal only. The Golden Standard is **Concept** on the public Register only (no manifest row).
 
@@ -20,7 +20,7 @@ PseudoChannel and Tone are **Private** in the portal only. The Golden Standard i
    - Bloom Atelier
    - YeastCoast
 3. **Within `IN_DEVELOPMENT`,** list remaining works in gate order (05, 06, …). No required sub-order beyond staying below every active row.
-4. **Alpha preview (exception):** MailPilot AI is always **last** in the manifest (below YeastCoast and other in-development rows). It may set `linkInDevelopment: true` and `developmentNote` so the destination links while status remains `IN_DEVELOPMENT`.
+4. **Alpha preview (exception):** MailPilot AI is always **last** in the manifest (below YeastCoast, Logos Engine, and other in-development rows). It may set `linkInDevelopment: true` and `developmentNote` so the destination links while status remains `IN_DEVELOPMENT`.
 
 ## Gate numbers
 
@@ -46,4 +46,4 @@ Internal enum (`manifestRows.status`) stays `ACTIVE | IN_DEVELOPMENT`. UI labels
 - [ ] Gates renumbered sequentially
 - [ ] Matching `portalProjects` entry (same `repo`, README path, description)
 - [ ] No em dashes in display copy ([`copy-style.md`](copy-style.md))
-- [ ] Deploy vessel-web on Hetzner after merge (`/srv/apps/vessel-web`)
+- [ ] Deploy vessel-web on Hetzner after merge (`/srv/apps/vessel-web`) — see [`deployment.md`](deployment.md)

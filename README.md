@@ -4,7 +4,7 @@ Vessel landing site and operator portal (`/portal`) for **vsl-base.com**.
 
 Manifest rows live in [`src/lib/portal-content.ts`](src/lib/portal-content.ts). Ordering rules (active works above in-development, Flux first among actives) are defined in [`_contract/portal-manifest.md`](_contract/portal-manifest.md). Display copy rules: [`_contract/copy-style.md`](_contract/copy-style.md).
 
-Production deploy: `/srv/apps/vessel-web` on the Hetzner host (`root@178.104.205.138`) — `git pull origin main` then `docker compose up --build -d`.
+**Production deploy:** [`_contract/deployment.md`](_contract/deployment.md) — git clone at `/srv/apps/vessel-web`, `./deploy/relaunch.sh` after push to `main`.
 
 ## Getting Started
 

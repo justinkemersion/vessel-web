@@ -9,7 +9,8 @@ export type ProjectKey =
   | "mailpilot-ai"
   | "vessel-ledger"
   | "tone"
-  | "bloom-atelier";
+  | "bloom-atelier"
+  | "logos-engine";
 
 export type PortalProject = {
   name: string;
@@ -81,6 +82,13 @@ export const portalProjects: PortalProject[] = [
     description:
       "MailPilot AI is an inbox copilot that pairs a Next.js control plane with a Python worker to classify and process Gmail using AI, coordinated through Supabase.",
   },
+  {
+    name: "Logos Engine",
+    repo: "logos-engine",
+    readmePath: "~/Projects/logos-engine/README.md",
+    description:
+      "Logos Engine is a trust-aware semantic reading environment for ancient Greek texts. A layered public reader for Homer and Plato, with private workspace overlays and editorial machinery on a Flux backbone. The Greek source is the authority.",
+  },
 ];
 
 /**
@@ -132,6 +140,16 @@ export const manifestRows: ManifestRow[] = [
   },
   {
     gate: "07",
+    service: "Logos Engine",
+    destination: "logos.vsl-base.com",
+    status: "IN_DEVELOPMENT",
+    repo: "logos-engine",
+    linkInDevelopment: true,
+    developmentNote:
+      "Experimental scholarly alpha. The public reader is live at the link above; editorial and AI tooling remain internal.",
+  },
+  {
+    gate: "08",
     service: "MailPilot AI",
     destination: "mailpilot.vsl-base.com",
     status: "IN_DEVELOPMENT",
@@ -207,6 +225,13 @@ export const registerWorks: RegisterWork[] = [
     status: "active",
     repo: "vessel-ledger",
     href: `https://${destinationByRepo["vessel-ledger"]}`,
+  },
+  {
+    name: "Logos Engine",
+    tagline: "Read the Greek world from the source.",
+    status: "alpha",
+    repo: "logos-engine",
+    href: `https://${destinationByRepo["logos-engine"]}`,
   },
   {
     name: "MailPilot AI",
