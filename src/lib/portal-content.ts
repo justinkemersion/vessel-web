@@ -54,11 +54,11 @@ export const portalProjects: PortalProject[] = [
       "MailPilot AI is an inbox copilot that pairs a Next.js control plane with a Python worker to classify and process Gmail using AI, coordinated through Supabase.",
   },
   {
-    name: "Vessel Ledger",
+    name: "Ledger",
     repo: "vessel-ledger",
     readmePath: "~/Projects/vessel-ledger/README.md",
     description:
-      "Vessel Ledger quietly keeps the household vessel afloat by tracking recurring obligations, upcoming bills, paid/unpaid status, payment notes, and calm reminders.",
+      "A calm household finance operations app for recurring bills, due dates, payment notes, and monthly obligation awareness. Vessel Ledger quietly keeps the household vessel afloat by tracking recurring obligations, upcoming bills, paid/unpaid status, payment notes, and calm reminders.",
   },
   {
     name: "Tone",
@@ -72,7 +72,7 @@ export const portalProjects: PortalProject[] = [
     repo: "bloom-atelier",
     readmePath: "~/Projects/bloom-atelier/README.md",
     description:
-      "Bloom Atelier is an identity-first marketplace where a curated public market and maker studio run on Flux-backed APIs without Bloom owning maker data rows.",
+      "Bloom Atelier is a sovereign, identity-first marketplace on a shared Flux backbone—without Bloom owning a row of maker data. A curated public floor (/market), a high-density maker atelier (/studio), and Flux-backed settings built for individuated excellence.",
   },
 ];
 
@@ -107,9 +107,9 @@ export const manifestRows: ManifestRow[] = [
   },
   {
     gate: "05",
-    service: "Vessel Ledger",
+    service: "Ledger",
     destination: "ledger.vsl-base.com",
-    status: "IN_DEVELOPMENT",
+    status: "ACTIVE",
     repo: "vessel-ledger",
   },
   {
@@ -123,7 +123,7 @@ export const manifestRows: ManifestRow[] = [
     gate: "07",
     service: "Bloom Atelier",
     destination: "bloom.vsl-base.com",
-    status: "IN_DEVELOPMENT",
+    status: "ACTIVE",
     repo: "bloom-atelier",
   },
 ];
