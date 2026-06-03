@@ -24,6 +24,7 @@ export type ManifestRow = {
   repo: ProjectKey;
 };
 
+/** Project copy keyed by repo. Order matches manifest policy in `_contract/portal-manifest.md`. */
 export const portalProjects: PortalProject[] = [
   {
     name: "Flux",
@@ -31,6 +32,20 @@ export const portalProjects: PortalProject[] = [
     readmePath: "~/Projects/flux/README.md",
     description:
       "Flux is a slim Backend-as-a-Service and Database-as-a-Service platform where each project gets an isolated PostgreSQL + PostgREST tenant bucket managed by a control plane.",
+  },
+  {
+    name: "Ledger",
+    repo: "vessel-ledger",
+    readmePath: "~/Projects/vessel-ledger/README.md",
+    description:
+      "A calm household finance operations app for recurring bills, due dates, payment notes, and monthly obligation awareness. Vessel Ledger quietly keeps the household vessel afloat by tracking recurring obligations, upcoming bills, paid/unpaid status, payment notes, and calm reminders.",
+  },
+  {
+    name: "Bloom Atelier",
+    repo: "bloom-atelier",
+    readmePath: "~/Projects/bloom-atelier/README.md",
+    description:
+      "Bloom Atelier is a sovereign, identity-first marketplace on a shared Flux backbone—without Bloom owning a row of maker data. A curated public floor (/market), a high-density maker atelier (/studio), and Flux-backed settings built for individuated excellence.",
   },
   {
     name: "YeastCoast",
@@ -54,28 +69,18 @@ export const portalProjects: PortalProject[] = [
       "MailPilot AI is an inbox copilot that pairs a Next.js control plane with a Python worker to classify and process Gmail using AI, coordinated through Supabase.",
   },
   {
-    name: "Ledger",
-    repo: "vessel-ledger",
-    readmePath: "~/Projects/vessel-ledger/README.md",
-    description:
-      "A calm household finance operations app for recurring bills, due dates, payment notes, and monthly obligation awareness. Vessel Ledger quietly keeps the household vessel afloat by tracking recurring obligations, upcoming bills, paid/unpaid status, payment notes, and calm reminders.",
-  },
-  {
     name: "Tone",
     repo: "tone",
     readmePath: "~/Projects/tone/README.md",
     description:
       "Tone is a browser-based guitar tuner with Listen and Reference modes, sharing the same tuning data so live detection and reference pitches stay in sync.",
   },
-  {
-    name: "Bloom Atelier",
-    repo: "bloom-atelier",
-    readmePath: "~/Projects/bloom-atelier/README.md",
-    description:
-      "Bloom Atelier is a sovereign, identity-first marketplace on a shared Flux backbone—without Bloom owning a row of maker data. A curated public floor (/market), a high-density maker atelier (/studio), and Flux-backed settings built for individuated excellence.",
-  },
 ];
 
+/**
+ * Flight manifest row order. See `_contract/portal-manifest.md`:
+ * ACTIVE rows first (Flux → Ledger → Bloom Atelier → YeastCoast), then IN_DEVELOPMENT.
+ */
 export const manifestRows: ManifestRow[] = [
   {
     gate: "01",
@@ -86,45 +91,45 @@ export const manifestRows: ManifestRow[] = [
   },
   {
     gate: "02",
-    service: "YeastCoast",
-    destination: "yeastcoast.vsl-base.com",
-    status: "ACTIVE",
-    repo: "yeast-coast",
-  },
-  {
-    gate: "03",
-    service: "PseudoChannel",
-    destination: "static.vsl-base.com",
-    status: "IN_DEVELOPMENT",
-    repo: "pseudo-channel",
-  },
-  {
-    gate: "04",
-    service: "MailPilot AI",
-    destination: "mail.vsl-base.com",
-    status: "IN_DEVELOPMENT",
-    repo: "mailpilot-ai",
-  },
-  {
-    gate: "05",
     service: "Ledger",
     destination: "ledger.vsl-base.com",
     status: "ACTIVE",
     repo: "vessel-ledger",
   },
   {
-    gate: "06",
-    service: "Tone",
-    destination: "tone.vsl-base.com",
-    status: "IN_DEVELOPMENT",
-    repo: "tone",
-  },
-  {
-    gate: "07",
+    gate: "03",
     service: "Bloom Atelier",
     destination: "bloom.vsl-base.com",
     status: "ACTIVE",
     repo: "bloom-atelier",
+  },
+  {
+    gate: "04",
+    service: "YeastCoast",
+    destination: "yeastcoast.vsl-base.com",
+    status: "ACTIVE",
+    repo: "yeast-coast",
+  },
+  {
+    gate: "05",
+    service: "PseudoChannel",
+    destination: "static.vsl-base.com",
+    status: "IN_DEVELOPMENT",
+    repo: "pseudo-channel",
+  },
+  {
+    gate: "06",
+    service: "MailPilot AI",
+    destination: "mail.vsl-base.com",
+    status: "IN_DEVELOPMENT",
+    repo: "mailpilot-ai",
+  },
+  {
+    gate: "07",
+    service: "Tone",
+    destination: "tone.vsl-base.com",
+    status: "IN_DEVELOPMENT",
+    repo: "tone",
   },
 ];
 

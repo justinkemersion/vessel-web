@@ -1,6 +1,16 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Vessel landing site and operator portal (`/portal`) for **vsl-base.com**.
+
+## Portal flight manifest
+
+Manifest rows live in [`src/lib/portal-content.ts`](src/lib/portal-content.ts). Ordering rules (active services above in-development, Flux first among actives) are defined in [`_contract/portal-manifest.md`](_contract/portal-manifest.md).
+
+Production deploy: `/srv/apps/vessel-web` on the Hetzner host (`root@178.104.205.138`) — `git pull origin main` then `docker compose up --build -d`.
 
 ## Getting Started
+
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+### Local dev
 
 First, run the development server:
 
