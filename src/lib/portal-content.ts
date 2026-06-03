@@ -22,6 +22,10 @@ export type ManifestRow = {
   destination: string;
   status: ManifestStatus;
   repo: ProjectKey;
+  /** Link destination while still IN_DEVELOPMENT (alpha / preview hosts). */
+  linkInDevelopment?: boolean;
+  /** Optional note shown in the expanded row (e.g. why manifest status lags the product). */
+  developmentNote?: string;
 };
 
 /** Project copy keyed by repo. Order matches manifest policy in `_contract/portal-manifest.md`. */
@@ -62,18 +66,18 @@ export const portalProjects: PortalProject[] = [
       "PseudoChannel turns a personal Plex library into deterministic live channels with block scheduling, gap-filling, AI programming support, and synchronized guide data.",
   },
   {
-    name: "MailPilot AI",
-    repo: "mailpilot-ai",
-    readmePath: "~/Projects/mailpilot-ai/README.md",
-    description:
-      "MailPilot AI is an inbox copilot that pairs a Next.js control plane with a Python worker to classify and process Gmail using AI, coordinated through Supabase.",
-  },
-  {
     name: "Tone",
     repo: "tone",
     readmePath: "~/Projects/tone/README.md",
     description:
       "Tone is a browser-based guitar tuner with Listen and Reference modes, sharing the same tuning data so live detection and reference pitches stay in sync.",
+  },
+  {
+    name: "MailPilot AI",
+    repo: "mailpilot-ai",
+    readmePath: "~/Projects/mailpilot-ai/README.md",
+    description:
+      "MailPilot AI is an inbox copilot that pairs a Next.js control plane with a Python worker to classify and process Gmail using AI, coordinated through Supabase.",
   },
 ];
 
@@ -119,17 +123,20 @@ export const manifestRows: ManifestRow[] = [
   },
   {
     gate: "06",
-    service: "MailPilot AI",
-    destination: "mail.vsl-base.com",
-    status: "IN_DEVELOPMENT",
-    repo: "mailpilot-ai",
-  },
-  {
-    gate: "07",
     service: "Tone",
     destination: "tone.vsl-base.com",
     status: "IN_DEVELOPMENT",
     repo: "tone",
+  },
+  {
+    gate: "07",
+    service: "MailPilot AI",
+    destination: "mailpilot.vsl-base.com",
+    status: "IN_DEVELOPMENT",
+    repo: "mailpilot-ai",
+    linkInDevelopment: true,
+    developmentNote:
+      "MailPilot is in public alpha at the link above. Manifest status stays in development until Google Gmail API verification is complete.",
   },
 ];
 

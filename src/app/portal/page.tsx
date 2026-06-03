@@ -151,50 +151,76 @@ function ManifestRow({
   destination,
   status,
   repo,
+  linkInDevelopment,
+  developmentNote,
 }: {
   gate: string;
   service: string;
   destination: string;
   status: ManifestStatus;
   repo: ProjectKey;
+  linkInDevelopment?: boolean;
+  developmentNote?: string;
 }) {
   const isActive = status === "ACTIVE";
   const isInDevelopment = status === "IN_DEVELOPMENT";
+  const isAlphaPreview = isInDevelopment && linkInDevelopment;
+  const showDestinationLink = isActive || isAlphaPreview;
 
   return (
-    <li className="border-b border-zinc-800 last:border-b-0">
-      <details className="group overflow-hidden open:bg-zinc-900/25">
+    <li
+      className={`border-b border-zinc-800 last:border-b-0 ${
+        isAlphaPreview ? "border-l-2 border-l-amber-600/70" : ""
+      }`}
+    >
+      <details
+        className={`group overflow-hidden ${
+          isAlphaPreview
+            ? "open:bg-amber-950/15 bg-amber-950/10"
+            : "open:bg-zinc-900/25"
+        }`}
+      >
         <summary
           className={`grid cursor-pointer list-none grid-cols-1 gap-1 px-5 py-4 transition-colors sm:grid-cols-[3rem_1fr_1.4fr_minmax(0,7.5rem)] sm:items-center sm:gap-4 [&::-webkit-details-marker]:hidden ${
-            isInDevelopment
-              ? "bg-zinc-950 text-zinc-600 hover:bg-zinc-900/40"
-              : "hover:bg-zinc-900/50"
+            isAlphaPreview
+              ? "bg-amber-950/10 text-zinc-500 hover:bg-amber-950/20"
+              : isInDevelopment
+                ? "bg-zinc-950 text-zinc-600 hover:bg-zinc-900/40"
+                : "hover:bg-zinc-900/50"
           }`}
         >
           <span className="font-mono text-xs text-zinc-500">{gate}</span>
           <span
             className={
-              isInDevelopment
-                ? "font-sans text-sm font-medium text-zinc-500"
-                : "font-sans text-sm font-medium text-zinc-100"
+              isAlphaPreview
+                ? "font-sans text-sm font-medium text-zinc-300"
+                : isInDevelopment
+                  ? "font-sans text-sm font-medium text-zinc-500"
+                  : "font-sans text-sm font-medium text-zinc-100"
             }
           >
             {service}
           </span>
           <span
             className={
-              isInDevelopment
-                ? "font-mono text-xs text-zinc-600"
-                : "font-mono text-xs text-zinc-400"
+              isAlphaPreview
+                ? "font-mono text-xs text-amber-200/70"
+                : isInDevelopment
+                  ? "font-mono text-xs text-zinc-600"
+                  : "font-mono text-xs text-zinc-400"
             }
           >
-            {isActive ? (
+            {showDestinationLink ? (
               <a
                 href={`https://${destination}`}
                 target="_blank"
                 rel="noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="font-mono text-xs text-zinc-400 underline decoration-zinc-700 underline-offset-2 transition-colors hover:text-zinc-200"
+                className={
+                  isAlphaPreview
+                    ? "font-mono text-xs text-amber-200/80 underline decoration-amber-700/60 underline-offset-2 transition-colors hover:text-amber-100"
+                    : "font-mono text-xs text-zinc-400 underline decoration-zinc-700 underline-offset-2 transition-colors hover:text-zinc-200"
+                }
               >
                 {destination}
               </a>
@@ -209,13 +235,25 @@ function ManifestRow({
                 className={
                   isActive
                     ? "inline-block size-1.5 rounded-full bg-emerald-500"
-                    : "inline-block size-1.5 rounded-full border border-zinc-700"
+                    : isAlphaPreview
+                      ? "inline-block size-1.5 rounded-full border border-amber-500/80 bg-amber-500/30"
+                      : "inline-block size-1.5 rounded-full border border-zinc-700"
                 }
               />
               <span
-                className={isActive ? "text-emerald-400/90" : "text-zinc-600"}
+                className={
+                  isActive
+                    ? "text-emerald-400/90"
+                    : isAlphaPreview
+                      ? "text-amber-400/80"
+                      : "text-zinc-600"
+                }
               >
-                {isActive ? "ACTIVE" : "IN DEVELOPMENT"}
+                {isActive
+                  ? "ACTIVE"
+                  : isAlphaPreview
+                    ? "IN DEVELOPMENT · ALPHA"
+                    : "IN DEVELOPMENT"}
               </span>
             </span>
             <ChevronIcon
@@ -225,10 +263,21 @@ function ManifestRow({
           </span>
         </summary>
 
-        <div className="border-t border-zinc-800/80 bg-zinc-950/80 px-5 py-4 sm:px-5">
+        <div
+          className={`border-t px-5 py-4 sm:px-5 ${
+            isAlphaPreview
+              ? "border-amber-900/40 bg-amber-950/10"
+              : "border-zinc-800/80 bg-zinc-950/80"
+          }`}
+        >
           <p className="font-sans text-sm leading-relaxed text-zinc-400">
             {projectDescriptionsByRepo[repo]}
           </p>
+          {developmentNote ? (
+            <p className="mt-3 font-sans text-sm leading-relaxed text-amber-200/70">
+              {developmentNote}
+            </p>
+          ) : null}
           <p className="mt-3 font-mono text-[10px] leading-relaxed text-zinc-600">
             Summary from{" "}
             <span className="text-zinc-500">{readmePathByRepo[repo]}</span>

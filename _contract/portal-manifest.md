@@ -11,6 +11,7 @@ Authoritative data: [`src/lib/portal-content.ts`](../src/lib/portal-content.ts) 
    - Bloom Atelier
    - YeastCoast
 3. **Within `IN_DEVELOPMENT`,** list remaining services in gate order (05, 06, …). No required sub-order beyond staying below every active row.
+4. **Alpha preview (exception):** MailPilot AI is always **last** in the manifest (below YeastCoast and other in-development rows). It may set `linkInDevelopment: true` and `developmentNote` so the destination links while status remains `IN_DEVELOPMENT`.
 
 ## Gate numbers
 
@@ -23,6 +24,7 @@ Authoritative data: [`src/lib/portal-content.ts`](../src/lib/portal-content.ts) 
 |--------|-----------------|
 | `ACTIVE` | Green status, clickable `https://{destination}` |
 | `IN_DEVELOPMENT` | Muted row, destination plain text (no link) |
+| `IN_DEVELOPMENT` + `linkInDevelopment` | Amber-accent row; destination links; optional `developmentNote` in expanded copy |
 
 `destination` must match the Traefik host the app actually serves.
 
