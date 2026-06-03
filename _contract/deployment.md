@@ -99,9 +99,9 @@ For portal manifest edits, also verify:
 | New fleet row | Destination URL returns app (not Vessel 404) |
 | Container | `docker inspect vessel-web` → healthy |
 
-Registering a **sibling app** (e.g. Logos Engine): deploy that app from its own repo first
-(see `logos-engine` `_contract/deployment.md`), soak, then add the portal row and deploy
-vessel-web via this contract.
+Registering a **sibling app** (e.g. Habitat Ledger, Logos Engine): deploy that app from its
+own repo first (see the app’s `_contract/deploy.md` or `deployment.md`), soak, then add the
+portal row and deploy vessel-web via this contract.
 
 ## Forbidden
 

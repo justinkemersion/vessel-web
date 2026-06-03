@@ -10,7 +10,8 @@ export type ProjectKey =
   | "vessel-ledger"
   | "tone"
   | "bloom-atelier"
-  | "logos-engine";
+  | "logos-engine"
+  | "habitat";
 
 export type PortalProject = {
   name: string;
@@ -62,6 +63,13 @@ export const portalProjects: PortalProject[] = [
       "YeastCoast is a full-stack homebrewing platform with a scientific dashboard feel, focused on readable brewing workflows, recipe tooling, and high-density product UX.",
   },
   {
+    name: "Habitat Ledger",
+    repo: "habitat",
+    readmePath: "~/Projects/habitat/README.md",
+    description:
+      "Habitat Ledger is a private field-notes app for conscious home-building: rooms, objects, candidates, snapshots, principles, and AI critique over time. Persistent atmosphere context, not AI interior design.",
+  },
+  {
     name: "PseudoChannel",
     repo: "pseudo-channel",
     readmePath: "~/Projects/pseudo-channel/pseudochannel/README.md",
@@ -93,7 +101,7 @@ export const portalProjects: PortalProject[] = [
 
 /**
  * Flight manifest row order. See `_contract/portal-manifest.md`:
- * ACTIVE rows first (Flux → Ledger → Bloom Atelier → YeastCoast), then IN_DEVELOPMENT.
+ * ACTIVE rows first (Flux → Ledger → Bloom Atelier → YeastCoast → Habitat Ledger), then IN_DEVELOPMENT.
  */
 export const manifestRows: ManifestRow[] = [
   {
@@ -126,20 +134,27 @@ export const manifestRows: ManifestRow[] = [
   },
   {
     gate: "05",
+    service: "Habitat Ledger",
+    destination: "habitat.vsl-base.com",
+    status: "ACTIVE",
+    repo: "habitat",
+  },
+  {
+    gate: "06",
     service: "PseudoChannel",
     destination: "static.vsl-base.com",
     status: "IN_DEVELOPMENT",
     repo: "pseudo-channel",
   },
   {
-    gate: "06",
+    gate: "07",
     service: "Tone",
     destination: "tone.vsl-base.com",
     status: "IN_DEVELOPMENT",
     repo: "tone",
   },
   {
-    gate: "07",
+    gate: "08",
     service: "Logos Engine",
     destination: "logos.vsl-base.com",
     status: "IN_DEVELOPMENT",
@@ -149,7 +164,7 @@ export const manifestRows: ManifestRow[] = [
       "Experimental scholarly alpha. The public reader is live at the link above; editorial and AI tooling remain internal.",
   },
   {
-    gate: "08",
+    gate: "09",
     service: "MailPilot AI",
     destination: "mailpilot.vsl-base.com",
     status: "IN_DEVELOPMENT",
@@ -225,6 +240,13 @@ export const registerWorks: RegisterWork[] = [
     status: "active",
     repo: "vessel-ledger",
     href: `https://${destinationByRepo["vessel-ledger"]}`,
+  },
+  {
+    name: "Habitat Ledger",
+    tagline: "Persistent atmosphere context for conscious home-building.",
+    status: "active",
+    repo: "habitat",
+    href: `https://${destinationByRepo.habitat}`,
   },
   {
     name: "Logos Engine",

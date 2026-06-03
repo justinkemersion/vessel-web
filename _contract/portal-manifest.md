@@ -6,8 +6,8 @@ Display copy rules: [`copy-style.md`](copy-style.md) (no em dashes in UI text).
 
 ## Public Register vs portal Manifest
 
-- **`registerWorks`** on `/`: curated editorial index (7 works). No gate numbers.
-- **`manifestRows`** on `/portal`: full operational table for operators (8 works).
+- **`registerWorks`** on `/`: curated editorial index (8 works). No gate numbers.
+- **`manifestRows`** on `/portal`: full operational table for operators (9 works).
 
 PseudoChannel and Tone are **Private** in the portal only. The Golden Standard is **Concept** on the public Register only (no manifest row).
 
@@ -19,7 +19,8 @@ PseudoChannel and Tone are **Private** in the portal only. The Golden Standard i
    - Ledger
    - Bloom Atelier
    - YeastCoast
-3. **Within `IN_DEVELOPMENT`,** list remaining works in gate order (05, 06, …). No required sub-order beyond staying below every active row.
+   - Habitat Ledger
+3. **Within `IN_DEVELOPMENT`,** list remaining works in gate order (06, 07, …). No required sub-order beyond staying below every active row.
 4. **Alpha preview (exception):** MailPilot AI is always **last** in the manifest (below YeastCoast, Logos Engine, and other in-development rows). It may set `linkInDevelopment: true` and `developmentNote` so the destination links while status remains `IN_DEVELOPMENT`.
 
 ## Gate numbers
