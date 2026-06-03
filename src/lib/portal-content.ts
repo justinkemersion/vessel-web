@@ -1,3 +1,5 @@
+import type { WorkStatus } from "@/lib/vessel-vocabulary";
+
 export type ManifestStatus = "ACTIVE" | "IN_DEVELOPMENT";
 
 export type ProjectKey =
@@ -49,7 +51,7 @@ export const portalProjects: PortalProject[] = [
     repo: "bloom-atelier",
     readmePath: "~/Projects/bloom-atelier/README.md",
     description:
-      "Bloom Atelier is a sovereign, identity-first marketplace on a shared Flux backbone—without Bloom owning a row of maker data. A curated public floor (/market), a high-density maker atelier (/studio), and Flux-backed settings built for individuated excellence.",
+      "Bloom Atelier is a sovereign, identity-first marketplace on a shared Flux backbone, without Bloom owning a row of maker data. A curated public floor (/market), a high-density maker atelier (/studio), and Flux-backed settings built for individuated excellence.",
   },
   {
     name: "YeastCoast",
@@ -157,3 +159,85 @@ export const readmePathByRepo: Record<ProjectKey, string> =
     },
     {} as Record<ProjectKey, string>,
   );
+
+const destinationByRepo: Partial<Record<ProjectKey, string>> =
+  manifestRows.reduce(
+    (acc, row) => {
+      acc[row.repo] = row.destination;
+      return acc;
+    },
+    {} as Partial<Record<ProjectKey, string>>,
+  );
+
+export type RegisterWork = {
+  name: string;
+  tagline: string;
+  status: WorkStatus;
+  repo?: ProjectKey;
+  href?: string;
+};
+
+/** Curated public register. See `_contract/portal-manifest.md` for full manifest. */
+export const registerWorks: RegisterWork[] = [
+  {
+    name: "Flux",
+    tagline: "Infrastructure for small, serious web projects.",
+    status: "active",
+    repo: "flux",
+    href: `https://${destinationByRepo.flux}`,
+  },
+  {
+    name: "Bloom Atelier",
+    tagline: "An editorial marketplace for independent makers.",
+    status: "active",
+    repo: "bloom-atelier",
+    href: `https://${destinationByRepo["bloom-atelier"]}`,
+  },
+  {
+    name: "YeastCoast",
+    tagline: "A brewing project for repeatable, classic-quality beer.",
+    status: "active",
+    repo: "yeast-coast",
+    href: `https://${destinationByRepo["yeast-coast"]}`,
+  },
+  {
+    name: "Vessel Ledger",
+    tagline:
+      "A calm ledger for obligations, records, and recurring operations.",
+    status: "active",
+    repo: "vessel-ledger",
+    href: `https://${destinationByRepo["vessel-ledger"]}`,
+  },
+  {
+    name: "MailPilot AI",
+    tagline: "Inbox maintenance for real life.",
+    status: "alpha",
+    repo: "mailpilot-ai",
+    href: `https://${destinationByRepo["mailpilot-ai"]}`,
+  },
+  {
+    name: "The Golden Standard",
+    tagline: "A future public house for beer, standards, and ritual.",
+    status: "concept",
+  },
+];
+
+export type Principle = {
+  title: string;
+  body: string;
+};
+
+export const principles: Principle[] = [
+  {
+    title: "Owned directly",
+    body: "We build and operate the work ourselves.",
+  },
+  {
+    title: "Useful before loud",
+    body: "No theater. No fake scale. Utility first.",
+  },
+  {
+    title: "Maintained seriously",
+    body: "A thing is not real until it can be kept alive.",
+  },
+];

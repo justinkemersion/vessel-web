@@ -3,18 +3,19 @@
 import Link from "next/link";
 import type { SVGProps } from "react";
 import { useUser } from "@clerk/nextjs";
+import { WorkStatusBadge } from "@/components/work-status-badge";
 import { VesselCard } from "@/components/ui/vessel-card";
 import {
   manifestRows,
   projectDescriptionsByRepo,
   readmePathByRepo,
-  type ManifestStatus,
-  type ProjectKey,
+  type ManifestRow,
 } from "@/lib/portal-content";
-
-/**
- * Vessel — the Portal (matches landing shell: zinc-950, zinc-800 hairlines, rounded-md).
- */
+import {
+  getManifestWorkStatus,
+  isManifestRowLinkable,
+  workStatusStyles,
+} from "@/lib/vessel-vocabulary";
 
 export default function PortalPage() {
   return (
@@ -37,27 +38,27 @@ function PortalHeader() {
   const { user, isLoaded } = useUser();
 
   const displayName = isLoaded
-    ? user?.firstName ?? user?.username ?? "Operator"
-    : "—";
+    ? (user?.firstName ?? user?.username ?? "Operator")
+    : "Operator";
 
   return (
-    <header className="w-full border-b border-zinc-800 bg-zinc-950">
+    <header className="w-full border-b border-charcoal bg-zinc-950">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 px-6 py-8 sm:px-10 sm:py-10">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <Link
               href="/"
-              className="text-sm font-semibold tracking-tight text-zinc-100 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 rounded-md"
+              className="text-sm font-semibold tracking-tight text-bone transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 rounded-md"
             >
               Vessel
             </Link>
-            <span className="rounded-md border border-zinc-800 bg-zinc-900/50 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.16em] text-zinc-500">
+            <span className="rounded-md border border-charcoal bg-zinc-900/50 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.16em] text-stone-500">
               Portal
             </span>
           </div>
           <Link
             href="/"
-            className="text-xs font-medium text-zinc-500 transition-colors hover:text-zinc-300"
+            className="text-xs font-medium text-stone-500 transition-colors hover:text-stone-300"
           >
             Home
           </Link>
@@ -65,7 +66,7 @@ function PortalHeader() {
 
         <h1 className="font-sans text-2xl font-semibold tracking-tight text-white sm:text-3xl">
           Welcome,{" "}
-          <span className="text-zinc-300">{displayName}</span>.
+          <span className="text-stone-300">{displayName}</span>.
         </h1>
       </div>
     </header>
@@ -86,12 +87,12 @@ function FluxQuickLink() {
           <h2 className="font-sans text-2xl font-semibold tracking-tight text-white sm:text-3xl">
             flux.vsl-base.com
           </h2>
-          <p className="font-mono text-sm text-zinc-500">
+          <p className="font-mono text-sm text-stone-500">
             Orchestrate your fleet.
           </p>
         </div>
 
-        <span className="inline-flex items-center gap-2 self-start rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-zinc-950 shadow-sm transition-colors group-hover:bg-zinc-100 sm:self-auto">
+        <span className="inline-flex items-center gap-2 self-start rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-zinc-950 shadow-sm transition-colors group-hover:bg-stone-100 sm:self-auto">
           Open Flux
           <span
             aria-hidden
@@ -110,23 +111,23 @@ function Manifest() {
     <section className="lg:col-span-2">
       <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
         <div>
-          <h2 className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
-            Flight manifest
+          <h2 className="text-xs font-medium uppercase tracking-[0.2em] text-stone-500">
+            Manifest
           </h2>
-          <p className="mt-1 max-w-xl text-[13px] leading-snug text-zinc-600">
-            Expand a row for a short overview of the project. Active routes open
+          <p className="mt-1 max-w-xl text-[13px] leading-snug text-stone-600">
+            Expand a row for a short overview of the work. Active routes open
             in a new tab when you use the destination link.
           </p>
         </div>
-        <span className="shrink-0 font-mono text-[11px] text-zinc-600">
-          {manifestRows.length} services
+        <span className="shrink-0 font-mono text-[11px] text-stone-600">
+          {manifestRows.length} works
         </span>
       </div>
 
-      <div className="overflow-hidden rounded-md border border-zinc-800 bg-zinc-950">
-        <div className="hidden grid-cols-[3rem_1fr_1.4fr_minmax(0,7.5rem)] items-center gap-4 border-b border-zinc-800 px-5 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-600 sm:grid">
+      <div className="overflow-hidden rounded-md border border-charcoal bg-zinc-950">
+        <div className="hidden grid-cols-[3rem_1fr_1.4fr_minmax(0,7.5rem)] items-center gap-4 border-b border-charcoal px-5 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-stone-600 sm:grid">
           <span>Gate</span>
-          <span>Service</span>
+          <span>Work</span>
           <span>Destination</span>
           <span className="flex items-center justify-end gap-1.5 text-right">
             <span>Status</span>
@@ -137,7 +138,7 @@ function Manifest() {
 
         <ul>
           {manifestRows.map((row) => (
-            <ManifestRow key={row.gate} {...row} />
+            <ManifestRow key={row.gate} row={row} />
           ))}
         </ul>
       </div>
@@ -145,82 +146,48 @@ function Manifest() {
   );
 }
 
-function ManifestRow({
-  gate,
-  service,
-  destination,
-  status,
-  repo,
-  linkInDevelopment,
-  developmentNote,
-}: {
-  gate: string;
-  service: string;
-  destination: string;
-  status: ManifestStatus;
-  repo: ProjectKey;
-  linkInDevelopment?: boolean;
-  developmentNote?: string;
-}) {
-  const isActive = status === "ACTIVE";
-  const isInDevelopment = status === "IN_DEVELOPMENT";
-  const isAlphaPreview = isInDevelopment && linkInDevelopment;
-  const showDestinationLink = isActive || isAlphaPreview;
+function ManifestRow({ row }: { row: ManifestRow }) {
+  const { gate, service, destination, repo, developmentNote } = row;
+  const workStatus = getManifestWorkStatus(row);
+  const styles = workStatusStyles[workStatus];
+  const showDestinationLink = isManifestRowLinkable(row, workStatus);
+  const isAlpha = workStatus === "alpha";
+  const isMuted = workStatus === "private" || workStatus === "concept";
 
   return (
     <li
-      className={`border-b border-zinc-800 last:border-b-0 ${
-        isAlphaPreview ? "border-l-2 border-l-amber-600/70" : ""
-      }`}
+      className={`border-b border-charcoal last:border-b-0 ${styles.rowAccent ?? ""}`}
     >
       <details
         className={`group overflow-hidden ${
-          isAlphaPreview
-            ? "open:bg-amber-950/15 bg-amber-950/10"
-            : "open:bg-zinc-900/25"
+          isAlpha ? "open:bg-amber-950/15 bg-amber-950/10" : "open:bg-zinc-900/25"
         }`}
       >
         <summary
           className={`grid cursor-pointer list-none grid-cols-1 gap-1 px-5 py-4 transition-colors sm:grid-cols-[3rem_1fr_1.4fr_minmax(0,7.5rem)] sm:items-center sm:gap-4 [&::-webkit-details-marker]:hidden ${
-            isAlphaPreview
-              ? "bg-amber-950/10 text-zinc-500 hover:bg-amber-950/20"
-              : isInDevelopment
-                ? "bg-zinc-950 text-zinc-600 hover:bg-zinc-900/40"
-                : "hover:bg-zinc-900/50"
-          }`}
+            styles.summaryBg ?? ""
+          } ${styles.summaryHover ?? "hover:bg-zinc-900/50"}`}
         >
-          <span className="font-mono text-xs text-zinc-500">{gate}</span>
+          <span className="font-mono text-xs text-stone-500">{gate}</span>
           <span
             className={
-              isAlphaPreview
-                ? "font-sans text-sm font-medium text-zinc-300"
-                : isInDevelopment
-                  ? "font-sans text-sm font-medium text-zinc-500"
-                  : "font-sans text-sm font-medium text-zinc-100"
+              isMuted
+                ? "font-sans text-sm font-medium text-stone-500"
+                : isAlpha
+                  ? "font-sans text-sm font-medium text-stone-300"
+                  : "font-sans text-sm font-medium text-bone"
             }
           >
             {service}
           </span>
-          <span
-            className={
-              isAlphaPreview
-                ? "font-mono text-xs text-amber-200/70"
-                : isInDevelopment
-                  ? "font-mono text-xs text-zinc-600"
-                  : "font-mono text-xs text-zinc-400"
-            }
-          >
+          <span className={styles.destinationText}>
             {showDestinationLink ? (
               <a
                 href={`https://${destination}`}
                 target="_blank"
                 rel="noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className={
-                  isAlphaPreview
-                    ? "font-mono text-xs text-amber-200/80 underline decoration-amber-700/60 underline-offset-2 transition-colors hover:text-amber-100"
-                    : "font-mono text-xs text-zinc-400 underline decoration-zinc-700 underline-offset-2 transition-colors hover:text-zinc-200"
-                }
+                className={styles.destinationLink}
               >
                 {destination}
               </a>
@@ -228,36 +195,10 @@ function ManifestRow({
               destination
             )}
           </span>
-          <span className="flex items-center justify-between gap-2 font-mono text-[10px] uppercase tracking-[0.18em] sm:justify-end">
-            <span className="flex items-center gap-2">
-              <span
-                aria-hidden
-                className={
-                  isActive
-                    ? "inline-block size-1.5 rounded-full bg-emerald-500"
-                    : isAlphaPreview
-                      ? "inline-block size-1.5 rounded-full border border-amber-500/80 bg-amber-500/30"
-                      : "inline-block size-1.5 rounded-full border border-zinc-700"
-                }
-              />
-              <span
-                className={
-                  isActive
-                    ? "text-emerald-400/90"
-                    : isAlphaPreview
-                      ? "text-amber-400/80"
-                      : "text-zinc-600"
-                }
-              >
-                {isActive
-                  ? "ACTIVE"
-                  : isAlphaPreview
-                    ? "IN DEVELOPMENT · ALPHA"
-                    : "IN DEVELOPMENT"}
-              </span>
-            </span>
+          <span className="flex items-center justify-between gap-2 sm:justify-end">
+            <WorkStatusBadge status={workStatus} />
             <ChevronIcon
-              className="size-4 shrink-0 text-zinc-500 transition-transform duration-200 group-open:rotate-180"
+              className="size-4 shrink-0 text-stone-500 transition-transform duration-200 group-open:rotate-180"
               aria-hidden
             />
           </span>
@@ -265,12 +206,12 @@ function ManifestRow({
 
         <div
           className={`border-t px-5 py-4 sm:px-5 ${
-            isAlphaPreview
-              ? "border-amber-900/40 bg-amber-950/10"
-              : "border-zinc-800/80 bg-zinc-950/80"
+            isAlpha
+              ? `${styles.detailBorder ?? "border-charcoal"} ${styles.detailBg ?? "bg-zinc-950/80"}`
+              : "border-charcoal/80 bg-zinc-950/80"
           }`}
         >
-          <p className="font-sans text-sm leading-relaxed text-zinc-400">
+          <p className="font-sans text-sm leading-relaxed text-stone-400">
             {projectDescriptionsByRepo[repo]}
           </p>
           {developmentNote ? (
@@ -278,9 +219,9 @@ function ManifestRow({
               {developmentNote}
             </p>
           ) : null}
-          <p className="mt-3 font-mono text-[10px] leading-relaxed text-zinc-600">
+          <p className="mt-3 font-mono text-[10px] leading-relaxed text-stone-600">
             Summary from{" "}
-            <span className="text-zinc-500">{readmePathByRepo[repo]}</span>
+            <span className="text-stone-500">{readmePathByRepo[repo]}</span>
           </p>
         </div>
       </details>
@@ -309,13 +250,13 @@ function Desk() {
   return (
     <aside className="lg:col-span-1">
       <div className="mb-3 flex items-baseline justify-between">
-        <h2 className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
+        <h2 className="text-xs font-medium uppercase tracking-[0.2em] text-stone-500">
           The desk
         </h2>
-        <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-500">
+        <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-stone-500">
           <span
             aria-hidden
-            className="inline-block size-1.5 rounded-full bg-emerald-500"
+            className="inline-block size-1.5 rounded-full bg-emerald-600"
           />
           On standby
         </span>
@@ -324,32 +265,32 @@ function Desk() {
       <VesselCard className="flex h-[calc(100%-2rem)] flex-col">
         <VesselCard.Eyebrow>Direct to dev</VesselCard.Eyebrow>
         <VesselCard.Title>Skip the ticket queue.</VesselCard.Title>
-        <p className="mt-3 font-sans text-sm leading-relaxed text-zinc-500">
-          Need a new instance or a technical tweak? We&apos;re on standby.
-          No support tickets, no tier triage — just a direct line to the
-          person who builds the thing.
+        <p className="mt-3 font-sans text-sm leading-relaxed text-stone-500">
+          Need a new instance or a technical tweak? We&apos;re on standby. No
+          support tickets, no tier triage. Just a direct line to the person who
+          builds the thing.
         </p>
 
-        <dl className="mt-6 space-y-3 border-t border-zinc-800 pt-5">
+        <dl className="mt-6 space-y-3 border-t border-charcoal pt-5">
           <div className="flex items-center justify-between gap-4">
-            <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-500">
+            <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-stone-500">
               Channel
             </dt>
-            <dd className="font-mono text-xs text-zinc-300">
+            <dd className="font-mono text-xs text-stone-300">
               dev@vsl-base.com
             </dd>
           </div>
           <div className="flex items-center justify-between gap-4">
-            <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-500">
+            <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-stone-500">
               Response
             </dt>
-            <dd className="font-mono text-xs text-zinc-300">~ same day</dd>
+            <dd className="font-mono text-xs text-stone-300">~ same day</dd>
           </div>
         </dl>
 
         <a
           href="mailto:dev@vsl-base.com"
-          className="mt-6 inline-flex items-center justify-center gap-2 self-stretch rounded-md border border-zinc-700 bg-transparent px-5 py-3 text-sm font-medium text-zinc-200 transition-colors hover:border-zinc-500 hover:bg-zinc-900/50"
+          className="mt-6 inline-flex items-center justify-center gap-2 self-stretch rounded-md border border-zinc-700 bg-transparent px-5 py-3 text-sm font-medium text-stone-200 transition-colors hover:border-stone-500 hover:bg-zinc-900/50"
         >
           Email the desk
         </a>

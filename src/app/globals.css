@@ -2,19 +2,23 @@
 @config "../../tailwind.config.ts";
 
 /*
- * Vessel — elite technical (Flux / Linear family)
- *
- * Zinc-950 canvas, zinc-500 muted, Geist Sans + Mono via @theme.
+ * Vessel: ink canvas, bone type, brass accent (warm dark shell)
  */
 
 :root {
   --background: #09090b;
-  --foreground: #a1a1aa;
+  --foreground: #a8a29e;
+  --bone: #f4f0ea;
+  --charcoal: #3f3f46;
+  --brass: #b45309;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-bone: var(--bone);
+  --color-charcoal: var(--charcoal);
+  --color-brass: var(--brass);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --radius-md: 0.375rem;
@@ -29,5 +33,5 @@ body {
 }
 
 @utility vessel-border {
-  @apply border border-zinc-800;
+  @apply border border-charcoal;
 }

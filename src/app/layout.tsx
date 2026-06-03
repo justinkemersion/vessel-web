@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Vessel — Boutique infrastructure for the craft",
+  title: "Vessel | A house for useful things",
   description:
-    "A private collective of high-utility web projects. Dedicated resources, zero jargon.",
+    "Software, brewing, tools, places, and other standards. Built carefully, owned directly, and kept alive.",
 };
 
 export default function RootLayout({
